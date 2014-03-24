@@ -1,0 +1,19 @@
+<html>
+<head>
+<title>send message</title>
+</head>
+<body>
+{% if addr %}
+<p>Send to: {{ addr.address }} ({{ addr.label }})</p>
+<form action="/send/{{ addr.address }}" method="post">
+{% else %}
+<p> Broadcast </p>
+<form action="/send" method="post">
+{% endif %}
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+<p><a href="/addressbook">address book</a></p>
+</body>
+</html>

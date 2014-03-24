@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>outbox</title>
+</head>
+<body>
+<table>
+<tr>
+<th>Subject</th>
+<th>To</th>
+<th>date</th>
+<th>Status</th>
+<th></th>
+</tr>
+{% for m in msgs %}
+    <tr>
+        <td>{{ m.subject }}</td>
+        <td>{{ m.msg_to }}</td>
+        <td>{{ m.last_action_date }}</td>
+        <td>{{ m.msg_status }}</td>
+        <td>
+         <a href="omsg/{{ m.id }}">view message</a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+<p><a href="inbox">inbox</a></p>
+<p><a href="addressbook">address book</a></p>
+<p><a href="identities">identities</a></p>
+</body>
+</html>

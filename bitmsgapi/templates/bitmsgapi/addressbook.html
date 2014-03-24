@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>address book</title>
+</head>
+<body>
+<table>
+<tr>
+<th>Address</th>
+<th>Label</th>
+<th></th>
+</tr>
+{% for a in addrs %}
+<tr>
+<td><a href="send/{{ a.address }}">{{ a.address }}</a></td>
+<td>{{ a.label }}</td>
+<td><a href="del_addr/{{ a.address }}">delete</a></td>
+</tr>
+{% endfor %}
+</table>
+<br/>
+<table>
+<tr>
+<th>Subscriptions</th>
+<th></th>
+</tr>
+{% for s in subs %}
+{% for k,v in s.items %}
+{% if k == "label" %}
+<tr>
+<td>
+{{ v }}
+</td>
+{% else %}
+<td>{{ v }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+{% endfor %}
+</table>
+<p><a href="send">Broadcast</a></p>
+<p><a href="inbox">inbox</a></p>
+<p><a href="outbox">outbox</a></p>
+</body>
+</html>

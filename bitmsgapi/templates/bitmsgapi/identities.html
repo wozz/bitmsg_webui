@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>your identities</title>
+</head>
+<body>
+<table>
+<tr>
+<th>Address</th>
+<th>Label</th>
+</tr>
+{% for i in ids %}
+<tr>
+<td>{{ i.address }}</td>
+<td>{{ i.label }}</td>
+</tr>
+{% endfor %}
+</table>
+<p>
+<a href="new_address">Create New Address</a>
+</p>
+<p>
+<a href="join_chan">Join Chan</a>
+</p>
+<p>
+<a href="inbox">inbox</a>
+</p>
+<p>
+<a href="outbox">outbox</a>
+</p>
+</body>
+</body>
+</html>

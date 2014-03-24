@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>join chan</title>
+</head>
+<body>
+<form action="/join_chan" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

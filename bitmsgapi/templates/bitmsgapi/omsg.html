@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>message</title>
+</head>
+<body>
+{% if msg %}
+    <table>
+        <tr><td>from: {{ msg.msg_from }}</td></tr>
+        <tr><td>to: {{ msg.msg_to }}</td></tr>
+        <tr><td>subject: {{ msg.subject }}</td></tr>
+        <tr><td>status: {{ msg.msg_status }}</td></tr>
+        <tr><td>date: {{ msg.last_action_date }}</td></tr>
+        <tr><td>msg:<br /><xmp>{{ msg.msg }}</xmp></td></tr>
+    </table>
+{% else %}
+    <p>invalid msg</p>
+{% endif %}
+
+<p>
+<a href="/outbox">outbox</a>
+</p>
+
+</body>
+</html>

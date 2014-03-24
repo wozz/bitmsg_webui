@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>inbox</title>
+</head>
+<body>
+<table>
+<tr>
+<th>Subject</th>
+<th>From</th>
+<th>date</th>
+<th></th>
+</tr>
+{% for m in msgs %}
+    <tr>
+        <td>{{ m.subject }}</td>
+        <td>{{ m.msg_from }}</td>
+        <td>{{ m.rcv_date }}</td>
+        <td>
+       {% if m.msg_unread %}
+          <b>
+       {% endif %}
+<a href="msg/{{ m.id }}">view message</a>
+       {% if m.msg_unread %}
+        </b>
+       {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+<p><a href="outbox">outbox</a></p>
+<p><a href="identities">identities</a></p>
+<p><a href="addressbook">address book</a></p>
+
+</body>
+</html>
