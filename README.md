@@ -15,9 +15,12 @@ Install
 
 Set this project up and run:
 
->   Sync the DB:
+Sync the DB:
+
 > python manage.py syncdb
->   Run the server:
+
+Run the server:
+
 > python manage.py runserver 127.0.0.1:8000
 
 To add authentication, put the server behind apache or nginx with authentication and/or https provided by the real server
