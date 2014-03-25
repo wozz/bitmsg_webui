@@ -9,11 +9,13 @@
         <tr><td>to: {{ msg.msg_to }}</td></tr>
         <tr><td>subject: {{ msg.subject }}</td></tr>
         <tr><td>date: {{ msg.rcv_date }}</td></tr>
-        <tr><td>msg:<br /><xmp>{{ msg.msg }}</xmp></td></tr>
+        <tr><td>msg:<br /><pre>{{ msg.msg }}</pre></td></tr>
 </table>
+<p><a href="/rawmsg/{{ msg.id }}">Raw Message</a></p>
 <p>
+<a href="/msg/{{ msg.id|add:"1" }}">next message</a>&nbsp;&nbsp;&nbsp;
 <a href="/inbox">inbox</a>&nbsp;&nbsp;&nbsp;
-<a href="/send/{{ msg.msg_from.address }}/{{ msg.msg_to.address }}">
+<a href="/send/{{ msg.msg_from.address }}/{{ msg.id }}">
 Reply
 </a>
 </p>

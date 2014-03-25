@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>raw message</title>
+</head>
+<body>
+{% if msg %}
+<pre>{{ msg.msg|safe }}</pre>
+<p>
+<a href="/msg/{{ msg.id }}">
+back to message
+</a>
+</p>
+{% else %}
+    <p>invalid msg</p>
+<p>
+<a href="/inbox">
+inbox
+</a>
+</p>
+{% endif %}
+</body>
+</html>

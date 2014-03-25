@@ -7,12 +7,16 @@ import xmlrpclib
 import json
 import datetime
 
-_API = "http://bitmessage:password@localhost:8444"
+#TODO: move stuff like this to a config file
+#I don't care if my RPC password is known since it's behind a firewall.
+# change the following line to match your env
+_API = "http://bitmessage:37614978326419784632874637481637821468@localhost:8444"
+DELIM = "\n\n\n------------------------------------------------------\n\n"
 
 class SendForm(forms.Form):
     sender = forms.ModelChoiceField(queryset=Identity.objects.all())
-    subject = forms.CharField(max_length=200)
-    message = forms.CharField(max_length=50000, widget=forms.Textarea(attrs={'rows':20, 'cols':100}))
+    subject = forms.CharField(max_length=200, widget=forms.Textarea(attrs={'rows':2, 'cols':100}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows':20, 'cols':100}))
 
 class NewAddress(forms.Form):
     label = forms.CharField(max_length=100)
@@ -56,7 +60,8 @@ def update_msgs():
             new_m.msg_to = i[0]
         else:
             i = Identity.objects.create(address=message['toAddress'], label='default')
-            i.save()
+            if message['toAddress'] != "[Broadcast subscribers]":
+                i.save()
             new_m.msg_to = i
         a = Address.objects.filter(address=message['fromAddress'])
         if len(a) != 0:
@@ -128,6 +133,12 @@ def msg(request, msg_id):
     context = {'msg': msg}
     return render(request, 'bitmsgapi/msg.html', context)
 
+def rawmsg(request, msg_id):
+    msg = get_object_or_404(Message, pk=msg_id)
+    template = loader.get_template('bitmsgapi/rawmsg.html')
+    context = {'msg': msg}
+    return render(request, 'bitmsgapi/rawmsg.html', context)
+
 def omsg(request, msg_id):
     update_sent()
     msg = get_object_or_404(OutMessage, pk=msg_id)
@@ -175,7 +186,7 @@ def outbox(request):
     context = {'msgs' : msgs}
     return render(request, 'bitmsgapi/outbox.html', context)
 
-def send(request, address="", faddr=""):
+def send(request, address="", fm=0):
     api = xmlrpclib.ServerProxy(_API)
     addr = Address.objects.filter(address=address)
     bcast = False
@@ -198,10 +209,19 @@ def send(request, address="", faddr=""):
             else:
                 ackdata = api.sendMessage(a.address, sender, subject, message)
             return HttpResponseRedirect('/outbox')
-
-    fr = Identity.objects.filter(address=faddr)
-    if len(fr) != 0: 
-        form = SendForm(initial={'sender':fr[0]})
+    
+    if fm != 0:
+        rmsg = get_object_or_404(Message, pk=fm)
+        try:
+            re = rmsg.subject[:3]
+            if re.upper() != "RE:":
+                re = "RE: "
+            else:
+                re = ""
+        except Exception:
+            re = "RE: "
+        finally:
+            form = SendForm(initial={'sender':rmsg.msg_to, 'message':DELIM + rmsg.msg, 'subject': re + rmsg.subject})
     else:
         form = SendForm()
 
@@ -251,6 +271,8 @@ def join_chan(request):
         if form.is_valid():
             p = form.cleaned_data['password'].encode('base64')
             a = form.cleaned_data['address']
+            ad = Address(address=a, label="[chan] " + p.decode('base64'))
+            ad.save()
             api.joinChan(p, a)
             return HttpResponseRedirect('/identities')
     form = JoinChan()
@@ -259,3 +281,7 @@ def join_chan(request):
     context = {'form':form}
     return render(request, 'bitmsgapi/join_chan.html', context)
 
+def status(request):
+    #add status/network status info
+
+    return HttpResponse("status not implemented yet")

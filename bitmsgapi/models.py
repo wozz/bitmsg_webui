@@ -20,7 +20,7 @@ class Message(models.Model):
     msg_to = models.ForeignKey(Identity)
     msg_unread = models.BooleanField(default=True)
     rcv_date = models.DateTimeField('date received')
-    msg = models.CharField(max_length=50000)
+    msg = models.TextField()
 
     class Meta:
         ordering = ('-rcv_date',)
@@ -34,7 +34,7 @@ class OutMessage(models.Model):
     msg_to = models.ForeignKey(Address)
     msg_status = models.CharField(max_length=200)
     last_action_date = models.DateTimeField('last action date')
-    msg = models.CharField(max_length=50000)
+    msg = models.TextField()
     msg_id = models.CharField(max_length=100)
 
     class Meta:

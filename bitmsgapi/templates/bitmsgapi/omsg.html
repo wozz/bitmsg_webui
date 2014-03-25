@@ -10,7 +10,7 @@
         <tr><td>subject: {{ msg.subject }}</td></tr>
         <tr><td>status: {{ msg.msg_status }}</td></tr>
         <tr><td>date: {{ msg.last_action_date }}</td></tr>
-        <tr><td>msg:<br /><xmp>{{ msg.msg }}</xmp></td></tr>
+        <tr><td>msg:<br /><pre>{{ msg.msg }}</pre></td></tr>
     </table>
 {% else %}
     <p>invalid msg</p>
